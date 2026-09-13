@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ŽSR - Mapa Pohybu Vlakov</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+</head>
+<body>
+    <div class="container">
+        <!-- Horná lišta -->
+        <header class="header">
+            <div class="logo">
+                <h1>🚂 ŽSR - Sledovanie Pohybu Vlakov</h1>
+            </div>
+            <div class="controls">
+                <button id="togglePersonal" class="btn-filter active">Osobná doprava</button>
+                <button id="toggleFreight" class="btn-filter active">Nákladná doprava</button>
+                <button id="toggleDisruptions" class="btn-filter active">Mimoriadnosti</button>
+                <button id="refreshBtn" class="btn-refresh">🔄 Obnoviť</button>
+            </div>
+        </header>
+
+        <div class="main-content">
+            <!-- Mapa -->
+            <div class="map-container">
+                <div id="map"></div>
+            </div>
+
+            <!-- Informačný panel -->
+            <div class="info-panel">
+                <!-- Tabuľka príchodov a odchodov -->
+                <div class="panel-section">
+                    <h2>📊 Informácie o Vlakoch</h2>
+                    <div class="info-tabs">
+                        <button class="tab-btn active" data-tab="arrivals">Príchody</button>
+                        <button class="tab-btn" data-tab="departures">Odchody</button>
+                        <button class="tab-btn" data-tab="disruptions">Mimoriadnosti</button>
+                    </div>
+
+                    <!-- Príchody -->
+                    <div id="arrivals" class="tab-content active">
+                        <table class="schedule-table">
+                            <thead>
+                                <tr>
+                                    <th>Čas</th>
+                                    <th>Vlak</th>
+                                    <th>Z/Z</th>
+                                    <th>Stanica</th>
+                                    <th>Typ</th>
+                                    <th>Stav</th>
+                                </tr>
+                            </thead>
+                            <tbody id="arrivals-table">
+                                <!-- Dynamicky naplnené -->
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Odchody -->
+                    <div id="departures" class="tab-content">
+                        <table class="schedule-table">
+                            <thead>
+                                <tr>
+                                    <th>Čas</th>
+                                    <th>Vlak</th>
+                                    <th>Z/Z</th>
+                                    <th>Stanica</th>
+                                    <th>Typ</th>
+                                    <th>Stav</th>
+                                </tr>
+                            </thead>
+                            <tbody id="departures-table">
+                                <!-- Dynamicky naplnené -->
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Mimoriadnosti a Výluky -->
+                    <div id="disruptions" class="tab-content">
+                        <div id="disruptions-list" class="disruptions-list">
+                            <!-- Dynamicky naplnené -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Vysvetlívky -->
+                <div class="panel-section">
+                    <h2>ℹ️ Vysvetlívky</h2>
+                    <div class="legend">
+                        <div class="legend-item">
+                            <div class="legend-color personal"></div>
+                            <span>Osobná doprava</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-color freight"></div>
+                            <span>Nákladná doprava</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-color disrupted"></div>
+                            <span>Oneskorený vlak</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-color cancelled"></div>
+                            <span>Zrušený vlak</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-symbol">🚨</div>
+                            <span>Mimoriadnosť</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-symbol">⚠️</div>
+                            <span>Výluka na trati</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Detaily vybranej stanice -->
+                <div class="panel-section">
+                    <h2>🏢 Detaily Stanice</h2>
+                    <div id="station-details" class="station-details">
+                        <p>Kliknite na stanicu na mape</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal pre detaily vlaku -->
+    <div id="trainModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <div id="modal-body"></div>
+        </div>
+    </div>
+
+    <script src="data.js"></script>
+    <script src="map.js"></script>
+    <script src="ui.js"></script>
+</body>
+</html>
